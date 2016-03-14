@@ -1,0 +1,194 @@
+
+import edu.wpi.rail.jrosbridge.messages.Message;
+import edu.wpi.rail.jrosbridge.messages.geometry.Pose;
+
+import javax.json.Json;
+import javax.json.JsonObject;
+
+
+/**
+ * The nav_msgs/OccupancyGrid message. 
+ * 
+ * @author Hanene Sayadi -- sayadi.hanene@gmail.com
+ * @version March 4, 2016
+ */
+	public class MapMetaData extends Message{
+
+		/**
+		 * The name of the time field for the message.
+		 */
+		public static final String FIELD_TIME = "map_load_time";
+
+		/**
+		 * The name of the resolution field for the message.
+		 */
+		public static final String FIELD_RESOLUTION = "resolution";
+
+		/**
+		 * The name of the width field for the message.
+		 */
+		public static final String FIELD_WIDTH = "width";
+
+		/**
+		 * The name of the height  field for the message.
+		 */
+		public static final String FIELD_HEIGHT = "height";
+
+		/**
+		 * The name of the Origin field for the message.
+		 */
+		public static final String FIELD_Origin = "origin";
+
+		/**
+		 * The message type.
+		 */
+		public static final String TYPE = "nav_msgs/MapMetaData";
+
+		private final edu.wpi.rail.jrosbridge.primitives.Time  map_load_time;
+		private final float  resolution;
+		private final int   width;
+		private final int  height;
+		private final Pose  origin;
+
+		/**
+		 * Create a new MapMetaData with all 0s.
+		 */
+		public MapMetaData() {
+			this(new edu.wpi.rail.jrosbridge.primitives.Time(), 0f, 0, 0, new Pose());
+		}
+
+		/**
+		 * Create a new MapMetaData with the given values.
+		 * 
+		 * @param header
+		 *            The map_load_time value of the MapMetaData. 
+		 * @param header
+		 *            The resolution value of the MapMetaData. 
+		 * @param header
+		 *            The width value of the MapMetaData. 
+		 * @param header
+		 *            The height value of the MapMetaData.
+		 * @param pose
+		 *            The origin value of the MapMetaData.
+		 */
+		public MapMetaData(edu.wpi.rail.jrosbridge.primitives.Time time,float resolution,int width, int height, Pose origin) {
+			// build the JSON object
+			super(Json.createObjectBuilder()
+					.add(MapMetaData.FIELD_TIME, time.toJsonObject())
+					.add(MapMetaData.FIELD_RESOLUTION, resolution)
+					.add(MapMetaData.FIELD_WIDTH, width)
+					.add(MapMetaData.FIELD_HEIGHT, height)
+					.add(MapMetaData.FIELD_Origin, origin.toJsonObject()).build(),
+					MapMetaData.TYPE);
+			this.map_load_time = time;
+			this.resolution = resolution;
+			this.width = width;
+			this.height = height;
+			this.origin = origin;
+		}
+
+		/**
+		 * Get the map_load_time value of this MapMetaData.
+		 * 
+		 * @return The map_load_time value of this MapMetaData.
+		 */
+		public edu.wpi.rail.jrosbridge.primitives.Time getTime() {
+			return this.map_load_time;
+		}
+
+		/**
+		 * Get the resolution value of this MapMetaData.
+		 * 
+		 * @return The resolution value of this MapMetaData.
+		 */
+		public float getResolution() {
+			return this.resolution;
+		}
+
+		/**
+		 * Get the width value of this MapMetaData.
+		 * 
+		 * @return The width value of this MapMetaData.
+		 */
+		public int getWidth() {
+			return this.width;
+		}
+
+		/**
+		 * Get the height value of this MapMetaData.
+		 * 
+		 * @return The height value of this MapMetaData.
+		 */
+		public int getHeight() {
+			return this.height;
+		}
+
+		/**
+		 * Get the origin value of this MapMetaData.
+		 * 
+		 * @return The pose value of this MapMetaData.
+		 */
+		public Pose getOrigin() {
+			return this.origin;
+		}
+
+		/**
+		 * Create a clone of this MapMetaData.
+		 */
+		@Override
+		public MapMetaData clone() {
+			return new MapMetaData(this.map_load_time, this.resolution, this.width, this.height, this.origin);
+		}
+
+		/**
+		 * Create a new MapMetaData based on the given JSON string. Any missing
+		 * values will be set to their defaults.
+		 * 
+		 * @param jsonString
+		 *            The JSON string to parse.
+		 * @return A MapMetaData message based on the given JSON string.
+		 */
+		public static MapMetaData fromJsonString(String jsonString) {
+			// convert to a message
+			return MapMetaData.fromMessage(new Message(jsonString));
+		}
+
+		/**
+		 * Create a new MapMetaData based on the given Message. Any missing values
+		 * will be set to their defaults.
+		 * 
+		 * @param m
+		 *            The Message to parse.
+		 * @return A MapMetaData message based on the given Message.
+		 */
+		public static MapMetaData fromMessage(Message m) {
+			// get it from the JSON object
+			return MapMetaData.fromJsonObject(m.toJsonObject());
+		}
+
+		/**
+		 * Create a new MapMetaData based on the given JSON object. Any missing
+		 * values will be set to their defaults.
+		 * 
+		 * @param jsonObject
+		 *            The JSON object to parse.
+		 * @return A MapMetaData message based on the given JSON object.
+		 */
+		public static MapMetaData fromJsonObject(JsonObject jsonObject) {
+			// check the fields
+			edu.wpi.rail.jrosbridge.primitives.Time map_load_time = jsonObject.containsKey(MapMetaData.FIELD_TIME) ? edu.wpi.rail.jrosbridge.primitives.Time
+					.fromJsonObject(jsonObject
+							.getJsonObject(MapMetaData.FIELD_TIME))
+					: new edu.wpi.rail.jrosbridge.primitives.Time();
+			float resolution = jsonObject.containsKey(MapMetaData.FIELD_RESOLUTION) ? jsonObject
+					.getInt(MapMetaData.FIELD_HEIGHT) : 0f;
+			int width = jsonObject.containsKey(MapMetaData.FIELD_WIDTH) ? jsonObject
+					.getInt(MapMetaData.FIELD_HEIGHT) : 0;
+			int height = jsonObject.containsKey(MapMetaData.FIELD_HEIGHT) ? jsonObject
+					.getInt(MapMetaData.FIELD_HEIGHT) : 0;
+			Pose origin = jsonObject.containsKey(MapMetaData.FIELD_Origin) ? Pose
+					.fromJsonObject(jsonObject
+							.getJsonObject(MapMetaData.FIELD_Origin)) : new Pose();
+			return new MapMetaData(map_load_time, resolution, width, height, origin);
+	}
+}
